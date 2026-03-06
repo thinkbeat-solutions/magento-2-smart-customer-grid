@@ -35,13 +35,19 @@ class CustomerType extends Column
         foreach ($dataSource['data']['items'] as &$item) {
             if (isset($item['customer_type'])) {
                 $type = $item['customer_type'];
-                
+
+                // Add a raw property for Javascript and other plugins to identify guests
+                $item['is_guest_customer'] = ($type === 'guest');
+
                 if ($type === 'registered') {
                     $item[$this->getData('name')] = '<span style="color: #006400; font-weight: 500;">Registered</span>';
-                } else {
+                }
+                else {
                     $item[$this->getData('name')] = '<span style="color: #666;">Guest</span>';
                 }
-            } else {
+            }
+            else {
+                $item['is_guest_customer'] = false;
                 $item[$this->getData('name')] = '<span style="color: #999;">Unknown</span>';
             }
         }

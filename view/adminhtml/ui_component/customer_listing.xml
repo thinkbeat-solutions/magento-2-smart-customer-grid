@@ -83,6 +83,16 @@
             </settings>
         </column>
 
+        <!-- Is Guest Customer Column (Hidden, for JS logic) -->
+        <column name="is_guest_customer" class="Magento\Ui\Component\Listing\Columns\Column" sortOrder="155">
+            <settings>
+                <label translate="true">Is Guest</label>
+                <filter>false</filter>
+                <dataType>boolean</dataType>
+                <visible>false</visible>
+            </settings>
+        </column>
+
         <!-- Email Domain Column -->
         <column name="email_domain" class="Magento\Ui\Component\Listing\Columns\Column" sortOrder="160">
             <settings>

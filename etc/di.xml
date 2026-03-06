@@ -29,4 +29,12 @@
                 sortOrder="10"/>
     </type>
 
+    <!-- Plugin to prevent inline editing of Guest customers -->
+    <type name="Magento\Customer\Controller\Adminhtml\Index\InlineEdit">
+        <plugin name="thinkbeat_smart_customer_grid_prevent_guest_inline_edit"
+                type="Thinkbeat\SmartCustomerGrid\Plugin\Controller\Adminhtml\Index\PreventGuestInlineEdit"
+                sortOrder="10"/>
+    </type>
+
+
 </config>
