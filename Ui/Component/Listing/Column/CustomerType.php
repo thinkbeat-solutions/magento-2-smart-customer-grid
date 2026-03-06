@@ -36,8 +36,11 @@ class CustomerType extends Column
             if (isset($item['customer_type'])) {
                 $type = $item['customer_type'];
 
-                // Add a raw property for Javascript and other plugins to identify guests
-                $item['is_guest_customer'] = ($type === 'guest');
+                // Preserve raw type before overwriting with HTML (for other plugins)
+                $item['customer_type_raw'] = $type;
+
+                // Use integer 1/0 for reliable JSON serialization across all PHP versions
+                $item['is_guest_customer'] = ($type === 'guest') ? 1 : 0;
 
                 if ($type === 'registered') {
                     $item[$this->getData('name')] = '<span style="color: #006400; font-weight: 500;">Registered</span>';
@@ -47,7 +50,8 @@ class CustomerType extends Column
                 }
             }
             else {
-                $item['is_guest_customer'] = false;
+                $item['customer_type_raw'] = 'unknown';
+                $item['is_guest_customer'] = 0;
                 $item[$this->getData('name')] = '<span style="color: #999;">Unknown</span>';
             }
         }

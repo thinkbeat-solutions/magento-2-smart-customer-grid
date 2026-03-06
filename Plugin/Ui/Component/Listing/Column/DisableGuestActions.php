@@ -31,9 +31,20 @@ class DisableGuestActions
             $actionColumnName = $subject->getName();
 
             foreach ($dataSource['data']['items'] as &$item) {
-                // Check if customer is guest (identified by customer_type or missing typical customer data)
-                // In our module, we set customer_type = 'guest'
-                if (isset($item['customer_type']) && $item['customer_type'] === 'guest') {
+                // Check using is_guest_customer flag (integer 1/0) set by CustomerType column,
+                // or fall back to customer_type_raw if available, or raw customer_type string
+                $isGuest = false;
+                if (isset($item['is_guest_customer']) && $item['is_guest_customer']) {
+                    $isGuest = true;
+                }
+                elseif (isset($item['customer_type_raw']) && $item['customer_type_raw'] === 'guest') {
+                    $isGuest = true;
+                }
+                elseif (isset($item['customer_type']) && $item['customer_type'] === 'guest') {
+                    $isGuest = true;
+                }
+
+                if ($isGuest) {
                     // Remove the 'edit' action if it exists
                     if (isset($item[$actionColumnName]['edit'])) {
                         unset($item[$actionColumnName]['edit']);
